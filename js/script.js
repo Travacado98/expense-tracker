@@ -26,7 +26,6 @@
 import {
   db,
   collection,
-  getDocs,
   addDoc,
   deleteDoc,
   doc,

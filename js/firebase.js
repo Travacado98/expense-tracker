@@ -3,7 +3,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebas
 import {
   getFirestore,
   collection,
-  getDocs,
   addDoc,
   deleteDoc,
   doc,
@@ -30,4 +29,4 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-export { db, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot, query };
+export { db, collection, addDoc, deleteDoc, doc, onSnapshot, query };
