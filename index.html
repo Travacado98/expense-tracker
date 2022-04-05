@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div id="app">
+        <form onsubmit="addExpense(event)">
+            <h1>Expense Tracker</h1>
+
+            <label for="">Name:</label>
+            <input id="Name" type="text" required>
+
+            <label for="">Amount:</label>
+            <input id="Amount" type='number' step=".01" required>
+
+            <label for="">Date:</label>
+            <input id="Date" type='date'>
+            <button type="submit">Add</button>
+        </form>
+
+        <strong>Total:
+            <span id="total"></span>
+        </strong>
+
+        <div id="expenseList">
+        </div>
+    </div>
+    <script type="module" src="js/script.js"></script>
+</body>
+
+</html>
