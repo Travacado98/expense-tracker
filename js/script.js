@@ -31,6 +31,7 @@ import {
   doc,
   onSnapshot,
   query,
+  updateDoc,
 } from "./firebase.js";
 
 let expenseList = [];
@@ -121,7 +122,7 @@ const renderExpense = (expenseObj) => {
   deleteButton.textContent = "X";
 
   deleteButton.onclick = () => deleteExpense(expenseObj.id);
-  editButton.onclick = () => editExpense(expenseObj.id);
+  editButton.onclick = () => openEditModal(expenseObj.id);
 
   expenseElm.appendChild(nameSpan);
   expenseElm.appendChild(amountSpan);
@@ -141,6 +142,49 @@ const deleteExpense = (id) => {
   deleteDoc(doc(db, "expenses", expenseList[index]._id));
 };
 
-const editExpense = (id) => {};
+// Modal
+let editItem;
+
+const editExpense = (e) => {
+  e.preventDefault();
+
+  const date = document.getElementById("edit-date").value;
+
+  const expenseObj = {
+    name: document.getElementById("edit-name").value,
+    amount: parseFloat(document.getElementById("edit-amount").value),
+    date: date ? new Date(`${date} 00:00`).toDateString() : null,
+    id: Date.now(),
+  };
+
+  updateDoc(doc(db, "expenses", editItem._id), {
+    ...expenseObj,
+    date: date ? new Date(expenseObj.date) : null,
+  });
+  closeEditModal();
+};
+
+const editModal = document.getElementById("edit-modal");
+
+const openEditModal = (id) => {
+  editItem = expenseList.find((expenseObj) => {
+    return expenseObj.id === id;
+  });
+
+  document.getElementById("edit-name").value = editItem.name;
+  document.getElementById("edit-amount").value = editItem.amount;
+  document.getElementById("edit-date").valueAsDate = new Date(editItem.date);
+
+  editModal.classList.add("open");
+};
+
+const closeEditModal = () => {
+  editModal.classList.remove("open");
+};
+
+editModal.onclick = (event) => {
+  if (event.target === editModal) closeEditModal();
+};
 
 window.addExpense = addExpense;
+window.editExpense = editExpense;

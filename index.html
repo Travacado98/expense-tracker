@@ -31,6 +31,24 @@
 
         <div id="expenseList">
         </div>
+
+        <div class="modal" id="edit-modal">
+            <div class="modal-content">
+                <form onsubmit="editExpense(event)">
+                    <label for="">Name:</label>
+                    <input id="edit-name" type="text">
+
+                    <label for="">Amount:</label>
+                    <input id="edit-amount" type='number' step=".01">
+
+                    <label for="">Date:</label>
+                    <input id="edit-date" type='date'>
+
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+
+        </div>
     </div>
     <script type="module" src="js/script.js"></script>
 </body>
