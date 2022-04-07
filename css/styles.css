@@ -391,4 +391,8 @@ template {
   padding: 20px;
 }
 
+.invalid {
+  border-color: red;
+}
+
 /*# sourceMappingURL=styles.css.map */

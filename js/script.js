@@ -36,6 +36,8 @@ import {
 
 let expenseList = [];
 let total = 0;
+let addFormSubmitted;
+let editFormSubmitted;
 
 const getExpenses = () => {
   const q = query(collection(db, "expenses"));
@@ -82,12 +84,17 @@ const calculateTotal = () => {
 // Adding Entries
 const addExpense = async (e) => {
   e.preventDefault();
+  addFormSubmitted = true;
 
-  const date = document.getElementById("Date").value;
+  if (!checkFormValidity("add")) return;
+
+  const name = document.getElementById("add-name").value;
+  const amount = document.getElementById("add-amount").value;
+  const date = document.getElementById("add-date").value;
 
   const expenseObj = {
-    name: document.getElementById("Name").value,
-    amount: parseFloat(document.getElementById("Amount").value),
+    name,
+    amount: parseFloat(amount),
     date: date ? new Date(`${date} 00:00`).toDateString() : null,
     id: Date.now(),
   };
@@ -96,6 +103,61 @@ const addExpense = async (e) => {
     ...expenseObj,
     date: date ? new Date(expenseObj.date) : null,
   });
+
+  document.getElementById("add-name").value = "";
+  document.getElementById("add-amount").value = "";
+  document.getElementById("add-date").value = "";
+
+  addFormSubmitted = false;
+};
+
+const editExpense = (e) => {
+  e.preventDefault();
+
+  editFormSubmitted = true;
+
+  if (!checkFormValidity("edit")) return;
+
+  const date = document.getElementById("edit-date").value;
+
+  const expenseObj = {
+    name: document.getElementById("edit-name").value,
+    amount: parseFloat(document.getElementById("edit-amount").value),
+    date: date ? new Date(`${date} 00:00`).toDateString() : null,
+    id: Date.now(),
+  };
+
+  updateDoc(doc(db, "expenses", editItem._id), {
+    ...expenseObj,
+    date: date ? new Date(expenseObj.date) : null,
+  });
+  closeEditModal();
+  editFormSubmitted = false;
+};
+
+const checkFormValidity = (form) => {
+  if (
+    (form === "add" && !addFormSubmitted) ||
+    (form === "edit" && !editFormSubmitted)
+  ) {
+    return true;
+  }
+
+  const name = document.getElementById(`${form}-name`).value;
+  const amount = document.getElementById(`${form}-amount`).value;
+
+  if (!name) {
+    document.getElementById(`${form}-name`).classList.add(`invalid`);
+  } else {
+    document.getElementById(`${form}-name`).classList.remove(`invalid`);
+  }
+  if (!amount) {
+    document.getElementById(`${form}-amount`).classList.add(`invalid`);
+  } else {
+    document.getElementById(`${form}-amount`).classList.remove(`invalid`);
+  }
+
+  return name && amount;
 };
 
 const renderExpenses = () => {
@@ -145,25 +207,6 @@ const deleteExpense = (id) => {
 // Modal
 let editItem;
 
-const editExpense = (e) => {
-  e.preventDefault();
-
-  const date = document.getElementById("edit-date").value;
-
-  const expenseObj = {
-    name: document.getElementById("edit-name").value,
-    amount: parseFloat(document.getElementById("edit-amount").value),
-    date: date ? new Date(`${date} 00:00`).toDateString() : null,
-    id: Date.now(),
-  };
-
-  updateDoc(doc(db, "expenses", editItem._id), {
-    ...expenseObj,
-    date: date ? new Date(expenseObj.date) : null,
-  });
-  closeEditModal();
-};
-
 const editModal = document.getElementById("edit-modal");
 
 const openEditModal = (id) => {
@@ -173,8 +216,12 @@ const openEditModal = (id) => {
 
   document.getElementById("edit-name").value = editItem.name;
   document.getElementById("edit-amount").value = editItem.amount;
-  document.getElementById("edit-date").valueAsDate = new Date(editItem.date);
 
+  if (editItem.date) {
+    document.getElementById("edit-date").valueAsDate = new Date(editItem.date);
+  } else {
+    document.getElementById("edit-date").value = "";
+  }
   editModal.classList.add("open");
 };
 
@@ -188,3 +235,4 @@ editModal.onclick = (event) => {
 
 window.addExpense = addExpense;
 window.editExpense = editExpense;
+window.checkFormValidity = checkFormValidity;

@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?">
+    <link rel="icon" type="image/x-icon" href="favicon.ico?">
 </head>
 
 <body>
@@ -15,13 +16,13 @@
             <h1>Expense Tracker</h1>
 
             <label for="">Name:</label>
-            <input id="Name" type="text" required>
+            <input id="add-name" type="text" oninput="checkFormValidity('add')">
 
             <label for="">Amount:</label>
-            <input id="Amount" type='number' step=".01" required>
+            <input id="add-amount" type='number' step=".01" oninput="checkFormValidity('add');">
 
             <label for="">Date:</label>
-            <input id="Date" type='date'>
+            <input id="add-date" type='date'>
             <button type="submit">Add</button>
         </form>
 
@@ -36,10 +37,10 @@
             <div class="modal-content">
                 <form onsubmit="editExpense(event)">
                     <label for="">Name:</label>
-                    <input id="edit-name" type="text">
+                    <input id="edit-name" type="text" oninput="checkFormValidity('edit')">
 
                     <label for="">Amount:</label>
-                    <input id="edit-amount" type='number' step=".01">
+                    <input id="edit-amount" type='number' step=".01" oninput="checkFormValidity('edit')">
 
                     <label for="">Date:</label>
                     <input id="edit-date" type='date'>
