@@ -8,49 +8,97 @@
     <title>Expense Tracker</title>
     <link rel="stylesheet" href="css/styles.css?">
     <link rel="icon" type="image/x-icon" href="favicon.ico?">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
 </head>
 
 <body>
     <div id="app">
         <form onsubmit="addExpense(event)">
-            <h1>Expense Tracker</h1>
 
-            <label for="">Name:</label>
-            <input id="add-name" type="text" oninput="checkFormValidity('add')">
+            <div id="headers">
+                <h1>Expense Tracker</h1>
+                <div id="total-amount">
+                    <h4>Total:</h4>
+                    <span id="total"></span>
+                </div>
+            </div>
 
-            <label for="">Amount:</label>
-            <input id="add-amount" type='number' step=".01" oninput="checkFormValidity('add');">
+            <div id="input-container">
+                <input id="add-name" type="text" oninput="checkFormValidity('add')" placeholder="Name*">
 
-            <label for="">Date:</label>
-            <input id="add-date" type='date'>
-            <button type="submit">Add</button>
+                <input id="add-amount" type='number' step=".01" oninput="checkFormValidity('add');"
+                    placeholder="Amount*">
+
+                <input id="add-date" type='text' placeholder="Due Date" onfocus="(this.type='date')">
+
+                <button id="add-button" type="submit">
+
+                    <span class="material-icons">add_circle</span>
+                    Add Expense
+
+                </button>
+            </div>
+            <div class="label-container">
+                <label>Name</label>
+                <label id="amount-label">Amount</label>
+                <label>Due Date</label>
+            </div>
+            <div id="expenseList">
+            </div>
+
         </form>
 
-        <strong>Total:
-            <span id="total"></span>
-        </strong>
 
-        <div id="expenseList">
-        </div>
 
         <div class="modal" id="edit-modal">
             <div class="modal-content">
                 <form onsubmit="editExpense(event)">
-                    <label for="">Name:</label>
-                    <input id="edit-name" type="text" oninput="checkFormValidity('edit')">
+                    <div id="modal-children">
+                        <h2 id="modal-text">
+                            Edit Expense
+                            <span class="material-icons">
+                                close
+                            </span>
+                        </h2>
+                        <input id="edit-name" type="text" oninput="checkFormValidity('edit')">
 
-                    <label for="">Amount:</label>
-                    <input id="edit-amount" type='number' step=".01" oninput="checkFormValidity('edit')">
+                        <input id="edit-amount" type='number' step=".01" oninput="checkFormValidity('edit')">
 
-                    <label for="">Date:</label>
-                    <input id="edit-date" type='date'>
+                        <input id="edit-date" type='date'>
 
-                    <button type="submit">Save</button>
+                        <button id="modal-button" type="submit">
+                            <span class="material-icons">save</span>
+                            Save Expense
+                        </button>
+                    </div>
                 </form>
             </div>
 
+
         </div>
+
+        <div id="footer">
+            <span>A project by</span>
+            <a href="http://travissmith.xyz">
+                <span>Travis Smith</span>
+            </a>
+        </div>
+
     </div>
+    <div id="mobile-footer">
+        <button id="edit-button">Edit</button>
+
+        <button id="delete-button">Delete</button>
+    </div>
+
+
     <script type="module" src="js/script.js"></script>
 </body>
 

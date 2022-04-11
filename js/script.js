@@ -77,6 +77,13 @@ const calculateTotal = () => {
   expenseList.forEach((expenseObj) => {
     newTotal += expenseObj.amount;
   });
+
+  if (newTotal > 0) {
+    document.getElementById("total").style.color = "#529D41";
+  } else {
+    document.getElementById("total").style.color = "#E04545";
+  }
+
   total = newTotal;
   document.getElementById("total").textContent = formatter.format(total);
 };
@@ -174,14 +181,40 @@ const renderExpense = (expenseObj) => {
   const nameSpan = document.createElement("span");
   const amountSpan = document.createElement("span");
   const dateSpan = document.createElement("span");
+  const buttonDiv = document.createElement("div");
   const deleteButton = document.createElement("button");
   const editButton = document.createElement("button");
+  const editIcon = document.createElement("span");
+  const editSpan = document.createElement("span");
+  const deleteIcon = document.createElement("span");
+  const deleteSpan = document.createElement("span");
 
   nameSpan.textContent = expenseObj.name;
   amountSpan.textContent = formatter.format(expenseObj.amount);
   dateSpan.textContent = expenseObj.date;
-  editButton.textContent = "Edit";
-  deleteButton.textContent = "X";
+  editSpan.textContent = "Edit";
+  deleteSpan.textContent = "Delete";
+  editIcon.textContent = "edit";
+  deleteIcon.textContent = "delete";
+
+  editButton.appendChild(editIcon);
+  editButton.appendChild(editSpan);
+  deleteButton.appendChild(deleteIcon);
+  deleteButton.appendChild(deleteSpan);
+
+  if (expenseObj.amount < 0) {
+    amountSpan.classList.add("negative");
+  }
+
+  editIcon.classList.add("material-icons");
+  deleteIcon.classList.add("material-icons");
+  buttonDiv.classList.add("button-row");
+
+  editButton.classList.add("edit-button");
+  deleteButton.classList.add("delete-button");
+  nameSpan.classList.add("name-span");
+  amountSpan.classList.add("amount-span");
+  dateSpan.classList.add("date-span");
 
   deleteButton.onclick = () => deleteExpense(expenseObj.id);
   editButton.onclick = () => openEditModal(expenseObj.id);
@@ -189,8 +222,10 @@ const renderExpense = (expenseObj) => {
   expenseElm.appendChild(nameSpan);
   expenseElm.appendChild(amountSpan);
   expenseElm.appendChild(dateSpan);
-  expenseElm.appendChild(editButton);
-  expenseElm.appendChild(deleteButton);
+  expenseElm.appendChild(buttonDiv);
+
+  buttonDiv.appendChild(editButton);
+  buttonDiv.appendChild(deleteButton);
 
   document.getElementById("expenseList").appendChild(expenseElm);
 };
